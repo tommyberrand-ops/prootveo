@@ -1,9 +1,8 @@
-// script.js - Version ULTIME - ADAPTÉE POUR VEO
-// MODIFICATIONS : Mots sensibles remplacés, mains naturelles, tenue départ supprimée, upload supprimé, effets supprimés
-// AJOUT : Instruction pour forcer le même visage en mode miroir
-// MODIFICATION : Chronologie Veo 8 secondes (4s Partie 1 + 4s Partie 2)
+// script.js - Version ULTIME - ADAPTÉE POUR VEO 8 SECONDES
+// MODIFICATIONS : Mots sensibles remplacés, mains naturelles, tenue départ = image reference
+// CHRONOLOGIE : 4s Partie 1 (3.5s danse + 0.5s transition) + 4s Partie 2 (3.5s danse + 0.5s finale)
 
-console.log("🚀 Chargement de script.js - Version Veo...");
+console.log("🚀 Chargement de script.js - Version Veo 8 secondes...");
 
 // Exposer les fonctions de actions.js
 if (typeof personnageActions !== 'undefined' && !window.personnageActions) {
@@ -105,8 +104,8 @@ class PromptGenerator {
         const animalNom = animalType === 'chiot' ? 'son chiot' : 'son chaton';
         
         if (animalBabyModeEnabled) {
-            return `FINALE SPECIALE MODE CALIN (derniere seconde) :
-A LA SECONDE 7 EXACTEMENT :
+            return `FINALE SPECIALE MODE CALIN (seconde 7.5 a 8.0) :
+A LA SECONDE 7.5 EXACTEMENT :
 - Elle serre ${animalNom} contre elle dans un dernier calin
 - Elle pose sa joue sur sa tete, FERME LES YEUX avec un sourire
 - Puis elle OUVRE LENTEMENT LES YEUX vers la CAMERA
@@ -168,9 +167,9 @@ A LA SECONDE 7 EXACTEMENT :
         if (!document.getElementById('enableScript')?.checked) return '';
         const scriptText = document.getElementById('scriptText')?.value;
         if (!scriptText) return '';
-        const part1 = document.getElementById('scriptPart1')?.checked ? `En partie 1, elle dit: "${scriptText}"` : '';
-        const part2 = document.getElementById('scriptPart2')?.checked ? `En partie 2, elle dit: "${scriptText}"` : '';
-        const final = document.getElementById('scriptFinal')?.checked ? `A la fin, elle dit: "${scriptText}"` : '';
+        const part1 = document.getElementById('scriptPart1')?.checked ? `En partie 1 (secondes 0-4), elle dit: "${scriptText}"` : '';
+        const part2 = document.getElementById('scriptPart2')?.checked ? `En partie 2 (secondes 4-8), elle dit: "${scriptText}"` : '';
+        const final = document.getElementById('scriptFinal')?.checked ? `A la fin (seconde 8), elle dit: "${scriptText}"` : '';
         const scripts = [part1, part2, final].filter(s => s).join(' ');
         return `\n\n🎤 SCRIPT DU PERSONNAGE :\n${scripts}`;
     }
@@ -184,12 +183,12 @@ A LA SECONDE 7 EXACTEMENT :
         const final = document.getElementById('scriptFinal')?.checked;
         let dialogueText = '';
         if (part2) dialogueText += `
-🗣️ DIALOGUE - PARTIE 2 :
+🗣️ DIALOGUE - PARTIE 2 (secondes 4-8) :
 Elle dit : "${scriptText}"
 AVEC SYNCHRONISATION LABIALE PARFAITE.
 `;
         if (final) dialogueText += `
-🗣️ DIALOGUE - FINALE :
+🗣️ DIALOGUE - FINALE (seconde 8) :
 Elle dit : "${scriptText}"
 `;
         return dialogueText;
@@ -241,7 +240,7 @@ Elle dit : "${scriptText}"
         if (timing === 'transition' && partie !== 'part2') return '';
         
         return `
-✨ TEXTES FLOTTANTS ${partie === 'part1' ? 'PREMIERE PARTIE' : 'DEUXIEME PARTIE'} ✨
+✨ TEXTES FLOTTANTS ${partie === 'part1' ? 'PREMIERE PARTIE (0-4s)' : 'DEUXIEME PARTIE (4-8s)'} ✨
 - Textes ${words.join(', ')} apparaissent et flottent dans l'air
 - Style : ${effect}
 - Mouvement : ${movement}
@@ -380,10 +379,10 @@ ${animalType === 'chiot' ?
 - frotte sa tete contre son cou
 - se love dans ses bras`}
 
-⏱️ CHRONOLOGIE VEO (8 secondes) :
-- 0-4s : Danse avec l'animal
-- 4-7s : Interaction et jeux
-- 7-8s : FINALE - dernier calin, regard camera, FREEZE
+🎬 CHRONOLOGIE VEO (8 secondes) :
+- SECONDES 0.0 - 3.5 : Danse avec l'animal
+- SECONDES 3.5 - 7.5 : Interactions et jeux
+- SECONDES 7.5 - 8.0 : FINALE - dernier calin, regard camera, FREEZE
 
 ${intensity === 'tendre' ? '🎯 INTENSITE : TENDRE' : intensity === 'joueur' ? '🎯 INTENSITE : JOUEUR' : '🎯 INTENSITE : MIXTE'}
 `;
@@ -419,14 +418,14 @@ ${mirrorData.regle_absolue.consigne}
         }
         
         mirrorText += `
-✨ PARTIE 2 - LE DUO (4 secondes) :
+✨ PARTIE 2 - LE DUO (secondes 4 a 8) :
 
-SECONDE 0-1 : Les DEUX femmes cote a cote, FACE CAMERA
-SECONDE 1-2 : PRESENTATION - se regardent, sourient, se prennent la main
-SECONDE 2-3 : DANSE A DEUX - style ${duo.name}
-SECONDE 3-4 : FINALE - ${poseFinale === 'cote_a_cote' ? 'cote a cote, main dans la main' : 'pose choisie'}
+SECONDE 4.0-4.5 : Les DEUX femmes cote a cote, FACE CAMERA
+SECONDE 4.5-5.5 : PRESENTATION - se regardent, sourient, se prennent la main
+SECONDE 5.5-7.5 : DANSE A DEUX - style ${duo.name}
+SECONDE 7.5-8.0 : FINALE - ${poseFinale === 'cote_a_cote' ? 'cote a cote, main dans la main' : 'pose choisie'}
 
-💡 RAPPELS : transition pendant le flash blanc
+💡 RAPPELS : transition pendant le flash blanc (seconde 3.5-4.0)
 `;
         return mirrorText;
     }
@@ -467,18 +466,15 @@ SECONDE 3-4 : FINALE - ${poseFinale === 'cote_a_cote' ? 'cote a cote, main dans 
 
         return `c'est un selfie son bras reste tendue${dialoguePart ? ` elle dit${dialoguePart}` : ''} en dansant (${danceDesc}).
 
-🎬 INSTRUCTION - FINALE SELFIE (derniere seconde) :
-A LA SECONDE 7 EXACTEMENT :
+🎬 INSTRUCTION - FINALE SELFIE (seconde 7.5 a 8.0) :
+A LA SECONDE 7.5 EXACTEMENT :
 - Elle rapproche son visage TRES LENTEMENT de l'objectif
 - Ses levres s'approchent jusqu'a TOUCHER l'objectif
 - ON VOIT LES DETAILS ULTRA-MACRO DES LEVRES
 - L'ecran devient NOIR
-- FIN DE LA PARTIE 1
+- FIN DE LA PARTIE 2
 
-TRANSITION VERS LA PARTIE 2 :
-- Pendant cet ecran noir, elle pose son telephone
-- La PARTIE 2 commence avec un angle de camera FIXE
-- Ses deux mains sont LIBRES pour danser`;
+IMPORTANT : Pendant l'ecran noir, la video s'arrete.`;
     }
 
     // ===== COLLECTE DES DONNÉES =====
@@ -597,7 +593,8 @@ TRANSITION VERS LA PARTIE 2 :
 
         const floatingTexts = this.generateFloatingWords('part1');
 
-        let part1Text = `Une transition de danse synchronisee en 4k, basee sur l'image fournie - PREMIERE PARTIE de 4 secondes.
+        let part1Text = `Une transition de danse synchronisee en 4k, basee sur l'image fournie.
+VIDEO UNIQUE DE 8 SECONDES - PREMIERE PARTIE (secondes 0.0 a 4.0)
 
 LE SUJET :
 - Femme magnifique, totalement silencieuse - elle ne parle pas, elle danse uniquement
@@ -626,11 +623,11 @@ TENUE DE DÉPART :
 - Elle porte EXACTEMENT la tenue visible sur l'image de référence
 - Les cheveux sont ceux de l'image, dans leur couleur naturelle
 
-DANSE AVANT TRANSFORMATION :
+DANSE AVANT TRANSFORMATION (secondes 0.0 a 3.5) :
 Danse ${country.dance} ${seductionPhrase} :
     - ${danceMovesText}
 
-GESTES :
+GESTES (secondes 0.0 a 3.5) :
 ${gesturesText}
 
 ${floatingTexts}`;
@@ -638,23 +635,23 @@ ${floatingTexts}`;
         if (this.userData.mirrorMode.enabled) {
             part1Text += `
 
-🪞 TRANSITION MIROIR (derniere demi-seconde) :
+🪞 TRANSITION MIROIR (seconde 3.5 a 4.0) :
 SECONDE 3.5 : Elle se retourne vers le miroir
-SECONDE 3.7 : Elle pose sa main sur le miroir
-SECONDE 3.9 : FLASH DE LUMIERE BLANCHE
-SECONDE 4.0 : FIN PARTIE 1
+SECONDE 3.6 : Elle pose sa main sur le miroir
+SECONDE 3.8 : FLASH DE LUMIERE BLANCHE
+SECONDE 4.0 : FIN DE LA TRANSITION
 
-IMPORTANT : Pendant ce flash blanc, elle se change et son clone apparaît.`;
+IMPORTANT : Pendant ce flash blanc, elle se change et son clone apparaît.
+La PARTIE 2 debute a la seconde 4.0 avec le resultat FINAL deja visible.`;
         } else {
             part1Text += `
 
-🎬 CHRONOLOGIE VEO (8 secondes au total) :
+🎬 TRANSITION (seconde 3.5 a 4.0) :
+A la seconde 3.5, elle plaque ses mains contre la camera pour masquer l'image.
+Pendant ce masquage (seconde 3.5 a 4.0), elle se change COMPLETEMENT.
+A la seconde 4.0, ses mains se retirent.
 
-SECONDES 0-3.5 : Danse avec tenue de départ
-SECONDE 3.5-4.0 : Transition - Elle plaque ses mains contre la camera pour masquer l'image. Pendant ce masquage, elle se change COMPLETEMENT.
-FIN PARTIE 1
-
-⚠️ La PARTIE 2 debute apres ce flash avec le resultat FINAL deja visible.`;
+⚠️ La transition dure 0.5 seconde. La PARTIE 2 debute a la seconde 4.0 avec le resultat FINAL deja visible.`;
         }
 
         return part1Text;
@@ -726,25 +723,22 @@ FIN PARTIE 1
             if (tenue) outfitText = `${tenue.description} aux couleurs ${tenue.colors.join(' et ')}. Elements : ${tenue.elements.join(', ')}. Accessoires : ${tenue.accessories.join(', ')}.`;
         }
 
-        return `Suite - DEUXIEME PARTIE (4 secondes) - VIDEO COMPLETE DE 8 SECONDES.
+        return `Suite - DEUXIEME PARTIE (secondes 4.0 a 8.0) - VIDEO COMPLETE DE 8 SECONDES.
+
+🎬 CHRONOLOGIE DE LA PARTIE 2 :
+
+SECONDE 4.0 : REVELATION - Nouvelle tenue deja portee, transformation deja accomplie
+SECONDE 4.0 - 7.5 : Danse avec tenue finale
+SECONDE 7.5 - 8.0 : FINALE SPECTACULAIRE
 
 CONTINUITE PARFAITE - MEME VISAGE
 
-⚠️ TRANSITION TERMINEE : Pendant le flash, elle s'est CHANGE
-Le resultat FINAL est deja visible des le debut de cette partie.
-
-🎬 CHRONOLOGIE (secondes 4 a 8) :
-
-SECONDE 4.0 : REVELATION - Nouvelle tenue deja portee, transformation deja accomplie
-SECONDES 4.0-7.5 : Danse avec tenue finale et tous les effets
-SECONDE 7.5-8.0 : FINALE SPECTACULAIRE
-
 ${finalScript}
 
-NOUVELLE TENUE (DEJA PORTEE) :
+NOUVELLE TENUE (DEJA PORTEE A PARTIR DE LA SECONDE 4.0) :
 ${outfitText}
 
-CHEVEUX TRANSFORMES (DEJA COLORES) :
+CHEVEUX TRANSFORMES (DEJA COLORES A PARTIR DE LA SECONDE 4.0) :
 ${this.userData.enableFluo ? this.userData.fluoColor + ' ' + fluoIntensityText : this.userData.naturalHair}
 
 ${alienTransformations}
@@ -755,11 +749,11 @@ ${mirrorMode}
 ${fantasyModes}
 ${specialFeatures}
 
-DANSE APRES TRANSFORMATION :
+DANSE APRES TRANSFORMATION (secondes 4.0 a 7.5) :
 Danse ${country.dance} :
     - ${danceMovesText}
 
-GESTES :
+GESTES (secondes 4.0 a 7.5) :
 ${gesturesText}
 
 ${floatingTexts}
@@ -767,20 +761,23 @@ ${floatingTexts}
 DECOR : ${decorText}
 
 🎬 FINALE SPECTACULAIRE (seconde 7.5 a 8.0) :
-${finale}`;
+${finale}
+
+⚠️ A LA SECONDE 8.0, LA VIDEO S'ARRETE.`;
     }
 
     generateConsignes() {
         const country = countries[this.userData.country];
         return `CONSIGNES POUR VEO (8 secondes) :
+
 1. VIDEO UNIQUE DE 8 SECONDES
-2. PARTIE 1 : secondes 0 a 4
-3. PARTIE 2 : secondes 4 a 8
+2. PARTIE 1 : secondes 0.0 a 4.0 (dont 3.5s danse + 0.5s transition)
+3. PARTIE 2 : secondes 4.0 a 8.0 (dont 3.5s danse + 0.5s finale)
 4. TRANSITION : seconde 3.5 a 4.0 (flash noir ou blanc)
 5. VISAGE IDENTIQUE PARTIE 1 ET 2
-6. TRANSFORMATION HORS CAMERA (pendant le flash)
+6. TRANSFORMATION HORS CAMERA (pendant la transition)
 7. ULTRA-REALISME
-8. SILENCE (sauf script)
+8. SILENCE (sauf script active)
 9. PERSONNAGE : ${country.name} - ${country.dance}`;
     }
 
@@ -853,7 +850,7 @@ function updateRecap() {
     const selected = document.querySelector('.character-card.selected');
     if (!selected) return;
     const country = countries[selected.dataset.country];
-    const recap = `🌍 Personnage : ${country.name}\n💃 Danse : ${country.dance}`;
+    const recap = `🌍 Personnage : ${country.name}\n💃 Danse : ${country.dance}\n⏱️ Chronologie : 8 secondes (4s + 4s)`;
     const recapDiv = document.getElementById('recapContent');
     if (recapDiv) recapDiv.innerHTML = recap.replace(/\n/g, '<br>');
 }
@@ -931,7 +928,7 @@ function attachEvents() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'prompt_veo.txt';
+        a.download = 'prompt_veo_8s.txt';
         a.click();
         URL.revokeObjectURL(url);
     });
@@ -1042,7 +1039,7 @@ function startApp() {
     setTimeout(updateAnimalColors, 500);
     initCharacters();
     attachEvents();
-    console.log("✅ Application prete - Version Veo 8 secondes!");
+    console.log("✅ Application prete - Version Veo 8 secondes (4s + 4s)!");
 }
 
 if (document.readyState === 'loading') {
@@ -1056,4 +1053,4 @@ window.initCharacters = initCharacters;
 window.displayPrompt = displayPrompt;
 window.updateRecap = updateRecap;
 
-console.log("📦 script.js charge - VERSION VEO 8 SECONDES : 4s Partie 1 + 4s Partie 2");
+console.log("📦 script.js charge - VERSION VEO 8 SECONDES : 4s Partie 1 + 4s Partie 2 (3.5s danse + 0.5s transition/finale)");
